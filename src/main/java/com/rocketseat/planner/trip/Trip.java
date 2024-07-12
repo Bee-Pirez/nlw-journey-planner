@@ -1,11 +1,21 @@
 package com.rocketseat.planner.trip;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.UUID;
 
 @Entity
+@Table(name = "trips")
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class Trip {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -18,7 +28,7 @@ public class Trip {
     private LocalDateTime starstAt;
 
     @Column(name = "ends_at",nullable = false)
-    private LocalDateTime endstAt;
+    private LocalDateTime endsAt;
 
     @Column(name = "is_confirmed",nullable = false)
     private Boolean isConfirmed;
@@ -28,4 +38,14 @@ public class Trip {
 
     @Column(name = "owner_email",nullable = false)
     private String ownerEmail;
+
+    //construtor público
+    public Trip(TripRequestPayload data) {
+        this.destination = data.destination();
+        this.isConfirmed = false;
+        this.ownerEmail = data.owner_email();
+        this.ownerName = data.owner_name();
+        this.starstAt = LocalDateTime.parse(data.starts_at(), DateTimeFormatter.ISO_DATE_TIME);
+        this.endsAt = LocalDateTime.parse(data.ends_at(), DateTimeFormatter.ISO_DATE_TIME);
+    }
 }
