@@ -55,7 +55,7 @@ public class TripController {
 
         return ResponseEntity.notFound().build();
     }
-    
+
     @GetMapping("/{id}/confirm")
     public ResponseEntity<Trip> confirmTrip(@PathVariable UUID id){
         Optional<Trip> trip = this.repository.findById(id);
